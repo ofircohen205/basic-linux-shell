@@ -1,0 +1,130 @@
+ofirce
+312255847 Ofir Cohen
+
+This software is a terminal (shell/bash) simulator with linux
+command
+
+support (without folder control) and "@" , "|" , "<" , ">" , ">>"
+and "2>" argumenet support.
+
+There can be up to 2 processes running per client (one for command, one for shell/bash CLI).
+there is a set limit of an input up to 511 characters and a limit of hostname display of 511 characters
+
+how to install:
+open linux terminal, navigate to the folder containing ex2.c
+using the "cd" command (confirm it by using ls command)
+incase you have makefile, type make and the program will
+automaticily be compiled, if you don't, type gcc -Wall ex2.c -o ex2
+and your program will automaticily be compiled
+
+to activate:
+open linux terminal, navigate to ex2 executeable file
+location using "cd" command (confirm it using ls command) and type
+./ex2
+
+to operate:
+once you are inside ex2 type any command you want
+
+*incase a command execution was successfull, return code will be
+updated
+
+*incase the command "done" was sent, the terminal simulator will
+exit
+
+*incase of empty command input(space enter, enter...) or any
+failure to fetch input from user,
+last return code will be retained and a new line will be made for
+the simulator command
+
+*the program has 3 static variables - cmd length, num of cmd, flag_background (for &)
+
+------------------ functions -------------------------------
+* incase of memory allocation failure, program will exit with
+message "Memory allocation failed"
+
+
+
+int check_sign(char**, int, char*);
+char** break_argv_left(char**, int, int);
+char** break_argv_right(char**, int, int);
+void pipe_main(char**, int, int);
+void redirection(char**, int, int);
+void print_done();
+void free_array(char**, int);
+
+void print_prompt():
+input: none
+output: prints the command line (the directory).
+
+
+char** read_tokens(int, char[]);
+input: int - the number of words, char[] - user input
+output: a dynamic memory allocated string array of the input
+string divided into WORDS, last element being NULL
+
+
+int sum_words(char[]);
+input: char[] - user input
+output: integer describing how many words (words meaning paragraphs
+divided by ' ' and '\n') there are in a string
+
+
+void child_process(char**);
+input: char** - the array of words 
+output: executes the command
+
+
+void parent_process(char**);
+input: char** - the array of words
+output: executes the command
+
+
+void check_space(char[]);
+input: char[] - user input
+output: checks if in the command someone pressed space
+
+
+void sig_handler(int);
+input: int - signal number
+output: handles child signal / interrupt signal
+
+
+int check_sign(char**, int, char*);
+input: char** - the array of words, int - num of words, char* - one of the signs "|", ">", ">>", "2>", "<"
+output: if the sign exists in the array then it returns it's index, else returns -1
+
+
+char** break_argv_left(char**, int, int);
+input: char** - the array of words, int - num of words, int - index that decides until where to seperate the array
+output: the left array of words until the index
+
+
+char** break_argv_right(char**, int, int);
+input: char** - the array of words, int - num of words, int - index that decides until where to seperate the array
+output: the right array of words until the index
+
+
+void pipe_main(char**, int, int);
+input: char** - the array of words, int - num of words, int - the pipe index
+output: executes pipe
+
+
+void redirection(char**, int, int);
+input: char** - the array of words, int -num of words, int - the redirection index
+output: executes redirection
+
+
+void print_done(int, int);
+input: int - cmd counter, int - cmd length
+output: prints cmd length and num of cmd
+
+
+void free_array(char**, int):
+input: char** - array of words, int - size
+output: frees the words allocated in the memory and the array itself
+
+
+int main() command:
+input: standart main input
+output: the shell CLI simulatorProgram has been fully tested with valgrind to test for memory
+leak, no leak was found.
